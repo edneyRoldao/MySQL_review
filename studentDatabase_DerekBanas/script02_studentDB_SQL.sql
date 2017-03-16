@@ -184,9 +184,9 @@ select
 select
     students.student_id as ID_STUDENT,
     concat(students.first_name, " ", students.last_name) as NAME,
-    count(absences.date) as ABSENCES,
+    count(absences.date) as ABSENCES
     from students, absences
-    where students.students.student_id = absences.student_id
+    where students.student_id = absences.student_id
     group by ID_STUDENT;
 
 
@@ -194,8 +194,42 @@ select
 select
     students.student_id as ID_STUDENT,
     concat(students.first_name, " ", students.last_name) as NAME,
-    count(absences.date) as ABSENCES,
+    count(absences.date) as ABSENCES
     from students left join absences 
-    on students.students.student_id = absences.student_id
+    on students.student_id = absences.student_id
     group by ID_STUDENT;
+
+# Here we have a challenge: We need to list the students that have more than one absence.
+select
+	concat(students.first_name, " ", students.last_name) as NAME,
+    count(absences.student_id) as ABSENCES
+    from students, absences
+    where students.student_id = absences.student_id
+    group by NAME
+    having ABSENCES > 1;
+
+# Now let's try to show the students that already made all tests, in other words, they don't have absences
+select 
+	concat(students.first_name, " ", students.last_name) as NAME,
+	count(tests.test_id) as tests,
+    avg(scores.score) as AVERAGE
+    from students, scores, tests
+    where students.student_id = scores.student_id and scores.test_id = tests.test_id
+    group by NAME
+    having tests = 10;
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
