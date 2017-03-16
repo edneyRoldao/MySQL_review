@@ -58,3 +58,13 @@ RENAME TABLE
     score to scores,
     class to classes,
     student to students;
+
+ALTER TABLE absences
+    ADD COLUMN test_taken char(1) not null default 'F'
+    AFTER student_id;
+    
+alter table absences
+    modify column test_taken enum('F', 'T') not null default 'F';
+    
+alter table absences
+    drop column test_taken;
